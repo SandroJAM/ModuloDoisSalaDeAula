@@ -9,11 +9,11 @@ public class Usuario {
 	private int idade;
 	private String cpf;
 
-	public int getId() {
+	public int getCodigo() {
 		return codigo;
 	}
 
-	public void setId(int codigo) {
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
 
