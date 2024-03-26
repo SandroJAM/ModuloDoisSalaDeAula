@@ -2,6 +2,7 @@ package fuctura.aplicacao;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 import fuctura.dao.UsuarioDao;
 import fuctura.model.Usuario;
@@ -33,6 +34,19 @@ public class Aplicacao {
 
 		System.out.println("finalizou inserir");
 
-	}
+		UsuarioDao daoUser = new UsuarioDao();
+		Usuario u1 = new Usuario();
+		u1.setNome("Patricia");
 
+		List<Usuario> resultadoConsulta = daoUser.consultarPorNome(conexao, u);
+
+		for (int i = 0; i < resultadoConsulta.size(); i++) {
+			Usuario usu = resultadoConsulta.get(i);
+			System.out.println("Cod. Código: " + usu.getCodigo());
+			System.out.println("Cod. Usuário: " + usu.getNome());
+		}
+		
+		
+
+	}
 }

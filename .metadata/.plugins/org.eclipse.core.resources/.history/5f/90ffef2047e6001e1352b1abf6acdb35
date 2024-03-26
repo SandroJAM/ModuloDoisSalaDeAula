@@ -1,0 +1,5 @@
+package fuctura.jdbc;
+
+public class ConnectionFactory {
+
+}

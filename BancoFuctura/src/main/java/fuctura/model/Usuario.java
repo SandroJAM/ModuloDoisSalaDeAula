@@ -49,4 +49,11 @@ public class Usuario {
 		this.cpf = cpf;
 	}
 
+	@Override
+	public String toString() {
+		return "\ncodigo: " + codigo + ", nome: " + nome + ", email: " + email + ", idade: " + idade + ", cpf: " + cpf + "\n";
+	}
+	
+	
+
 }

@@ -1,0 +1,93 @@
+package fuctura.model;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Application {
+
+	public static void main(String[] args) throws SQLException {
+
+		var url = "jdbc:postgresql://localhost:5432/FucturaSalaDeAula";
+		var username = "postgres";
+		var password = "toor";
+
+		// -- FAZ A CONEXÃO COM O BANCO DE DADO --
+
+		Connection conexao = DriverManager.getConnection(url, username, password);
+		System.out.println("Conectado");
+
+		// SEMPRE USAR O SCANNER PROXIMO DO MEDOTO
+		Scanner scan = new Scanner(System.in);
+
+		var nome = scan.next();
+		var email = scan.next();
+		var idade = scan.nextInt();
+		var cpf = scan.next();
+
+		// USUARIO TEM QUE COLOCAR OS PARAMETROS
+		inserirUsuario(conexao, nome, email, idade, cpf);
+
+	}
+
+	// PARAMETRO PARA INSERIR "UTILIZAÇAO DA CONNECTION".
+	public static void inserirUsuario(Connection conexao, String nome, String email, int idade, String cpf)
+			throws SQLException {
+
+		// INSERIR DADOS NO BANCO DE DADOS
+		// TODA VEZ QUE FOR PASSAR ALGUM PARAMETRO É NECESSARIO A "?"
+
+		String comandoInsert = "insert into usuario ( nome,idade, email,cpf)\r\n" + "values (?,?,?,?)";
+
+		// PREPARANDO O COMANDO PARA EXECUTAR O COMANDO
+		PreparedStatement pstm = conexao.prepareStatement(comandoInsert);
+
+		// INDICE 2 IDADE.
+		pstm.setInt(2, idade);
+
+		// INDICE 1 NOME.
+		pstm.setString(1, nome);
+
+		// INDICE 3 EMAIL.
+		pstm.setString(3, email);
+
+		// Indice 4 cpf.
+		pstm.setString(4, cpf);
+
+		// EXECUTAR O COMANDO SE FOR TRUE ESTÁ CORRETO OU FALSE ESTÉ ERRADO.
+		pstm.execute();
+		System.out.println("Registrado Com Sucesso");
+
+	}
+
+	private static void consultar(Connection conexao) throws SQLException {
+		// Vamos consultar todos usuarios
+
+		String comandoDeConsulta = "select * from usuario";
+
+		PreparedStatement pstm = conexao.prepareStatement(comandoDeConsulta);
+
+		// DEVOLVE UM RESULTSET
+		// EXECUTEQUERY PARA CONSULTAR
+		ResultSet resultadoConsulta = pstm.executeQuery();
+
+		System.out.println();
+		//
+		while (resultadoConsulta.next()) {
+			// VAI ENTRAR NO LOOP SE TIVER DADOS
+
+			// CONSULTAR PELO CODIGO.
+			int codigoUsuario = resultadoConsulta.getInt("codigo");
+			String nomeUsuario = resultadoConsulta.getString("nome");
+
+			System.out.println("cod. Usuario" + codigoUsuario);
+			System.out.println("cod. Usuario" + nomeUsuario);
+
+		}
+
+	}
+
+}
